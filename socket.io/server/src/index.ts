@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 
 const app = express();
-const port = 3030;
+const port = 5050;
 
 // Global middlewares
 app.use(express.json());
