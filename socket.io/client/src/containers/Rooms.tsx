@@ -1,5 +1,5 @@
 function RoomsContainer() {
-  return <p>Rooms</p>;
+  return <div>Rooms</div>;
 }
 
 export default RoomsContainer;
