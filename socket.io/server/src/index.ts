@@ -3,7 +3,10 @@ import log from './log/pino';
 import config from 'config';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { version } from '../package.json';
 // import cors from 'cors';
+
+import socket from './socket';
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');
@@ -29,4 +32,7 @@ app.get('/', (_req: Request, res: Response) => {
 
 httpServer.listen(port, host, () => {
   log.info(`🚀 Server listing http://${host}:${port} 🎃`);
+  log.info(`Current versio of the app ${version}`);
+
+  socket({ io });
 });
