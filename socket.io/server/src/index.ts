@@ -6,7 +6,7 @@ import { Server } from 'socket.io';
 import { version } from '../package.json';
 // import cors from 'cors';
 
-import socket from './socket';
+import socket from './utils/socket';
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');
