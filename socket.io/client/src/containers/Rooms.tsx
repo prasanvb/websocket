@@ -1,3 +1,4 @@
+import styles from "./Room.module.css";
 import EVENTS from "src/config/events";
 import { useSockets } from "../context/socket.content";
 import React, { useRef } from "react";
@@ -33,27 +34,47 @@ const RoomsContainer = () => {
   }
 
   return (
-    <nav>
-      {roomId ? <div>Room Id: {roomId}</div> : "No room joined yet"}
-      {currentRoomName && <div>Current Room Name: {currentRoomName}</div>}
+    <nav className={styles.wrapper}>
       {!roomId && (
-        <div>
+        <div className={styles.createRoomWrapper}>
           <input placeholder="Enter room name" ref={newRoomRef} />
-          <button onClick={handleCreateRoom}>START</button>
+          <button className="cta" onClick={handleCreateRoom}>
+            START
+          </button>
         </div>
       )}
 
       <div>
-        Available Rooms:
-        {Object.keys(rooms).map((key) => {
-          return (
-            <div key={key}>
-              <button disabled={key === roomId} title={`Join ${rooms[key].name}`} onClick={() => handleJoinRoom(key)}>
-                {rooms[key].name}
+        <div>
+          {currentRoomName && (
+            <div>
+              Current Room Name:{" "}
+              <button className="cta" disabled>
+                {currentRoomName.toLocaleUpperCase()}
               </button>
             </div>
-          );
-        })}
+          )}
+        </div>
+        <div>
+          Available Rooms:
+          <ul className={styles.roomList}>
+            {Object.keys(rooms).map((key) => {
+              const roomName = rooms[key].name.toLocaleUpperCase();
+              return (
+                <div key={key}>
+                  <button
+                    className="cta"
+                    disabled={key === roomId}
+                    title={`Join ${rooms[key].name}`}
+                    onClick={() => handleJoinRoom(key)}
+                  >
+                    {roomName}
+                  </button>
+                </div>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </nav>
   );

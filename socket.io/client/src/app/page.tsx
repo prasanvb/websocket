@@ -30,18 +30,22 @@ export default function Home() {
       <div className={styles.usernameWrapper}>
         <div className={styles.usernameInner}>
           <input placeholder="Enter Username" ref={usernameRef} />
-          <button onClick={handleUsername}>START</button>
+          <button className="cta" onClick={handleUsername}>
+            START
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div>
       {!!socket && <p>Socket connection id: {socket.id}</p>}
       <div>Username: {username}</div>
-      <RoomsConatiners />
-      <MessagesConatiners />
+      <div className={styles.container}>
+        <RoomsConatiners />
+        <MessagesConatiners />
+      </div>
     </div>
   );
 }

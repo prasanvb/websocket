@@ -21,6 +21,11 @@ const socket = ({ io }: { io: Server }) => {
     log.info(`User connected ${socket.id}`);
 
     /*
+     * Emit all available rooms to user after connection
+     */
+    socket.emit(EVENTS.SERVER.ROOMS, rooms);
+
+    /*
      * When a user creates a new room object
      */
 
