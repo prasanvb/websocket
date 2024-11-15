@@ -2,13 +2,19 @@
 
 import styles from "./page.module.css";
 import { useSockets } from "../context/socket.content";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import MessagesConatiners from "../containers/Messages";
 import RoomsConatiners from "../containers/Rooms";
 
 export default function Home() {
   const { socket, username, setUsername } = useSockets();
   const usernameRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (usernameRef.current) {
+      usernameRef.current.value = localStorage.getItem("username") ?? "";
+    }
+  }, []);
 
   const handleUsername = () => {
     if (usernameRef.current && usernameRef.current.value) {

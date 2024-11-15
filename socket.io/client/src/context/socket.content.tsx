@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import { SOCKET_URL } from "../config/default";
 import EVENTS from "src/config/events";
@@ -39,6 +39,12 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [rooms, setRooms] = useState({});
   const [messages, setMessages] = useState<MessageType[]>([]);
 
+  useEffect(() => {
+    window.onfocus = function () {
+      document.title = username ? `${username} - Chat App` : "Chat App";
+    };
+  });
+
   socket.on(EVENTS.SERVER.ROOMS, (value) => {
     setRooms(value);
   });
@@ -48,6 +54,12 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ id, username, message, date }: MessageType) => {
+    const checkIfDocNotInFocus = !document.hasFocus();
+
+    if (checkIfDocNotInFocus) {
+      document.title = "New Message...";
+    }
+
     setMessages([...messages, { id, username, message, date }]);
   });
 
