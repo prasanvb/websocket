@@ -5,12 +5,20 @@ import { randomUUID } from 'crypto';
 
 const rooms: Record<string, { name: string }> = {};
 
+let messages: {
+  roomId: string;
+  id: string;
+  username: string;
+  message: string;
+  date: string;
+}[] = [];
+
 const socket = ({ io }: { io: Server }) => {
   log.info('🔌 Socket enabled');
 
   io.on(EVENTS.connection, (socket: Socket) => {
-    log.info(`User connected ${socket.id}`);
     // console.log(socket.handshake.headers['user-agent']);
+    log.info(`User connected ${socket.id}`);
 
     /*
      * When a user creates a new room object
@@ -20,7 +28,6 @@ const socket = ({ io }: { io: Server }) => {
       EVENTS.CLIENT.CREATE_ROOM,
       ({ roomName }: { roomName: string }) => {
         // console.log({ currentRooms: rooms });
-
         // create a roomId
         const roomId = randomUUID();
 
@@ -58,6 +65,10 @@ const socket = ({ io }: { io: Server }) => {
           message,
           date,
         });
+
+        messages = [...messages, { id, roomId, username, message, date }];
+
+        console.log({ messages });
       },
     );
 

@@ -25,9 +25,17 @@ const RoomsContainer = () => {
     }
   };
 
+  let currentRoomName;
+  if (roomId) {
+    const currentRoom = Object.entries(rooms).find((room) => room[0] === roomId);
+
+    currentRoomName = currentRoom ? currentRoom[1].name : "No room joined yet";
+  }
+
   return (
     <nav>
       {roomId ? <div>Room Id: {roomId}</div> : "No room joined yet"}
+      {currentRoomName && <div>Current Room Name: {currentRoomName}</div>}
       {!roomId && (
         <div>
           <input placeholder="Enter room name" ref={newRoomRef} />
